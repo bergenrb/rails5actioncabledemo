@@ -6,8 +6,7 @@ App.room = App.cable.subscriptions.create "RoomChannel",
     # Called when the subscription has been terminated by the server
 
   received: (data) ->
-    alert data['message']
-    # Called when there's incoming data on the websocket for this channel
+    $('#messages').append data['message']
 
   speak: (data) ->
     @perform 'speak', message: data

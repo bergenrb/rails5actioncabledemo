@@ -11,6 +11,11 @@ class RoomChannel < ApplicationCable::Channel
 
   # Called from #speak in room.coffee
   def speak(data)
-    ActionCable.server.broadcast 'room_channel', message: data['message']
+    message = Message.create content: data['message']
+    ActionCable.server.broadcast 'room_channel', message: render_partial(message)
+  end
+
+  def render_partial(message)
+    ApplicationController.renderer.render(partial: 'messages/message', locals: { message: message})
   end
 end
